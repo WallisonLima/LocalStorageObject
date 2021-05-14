@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+
+<head>
+    <title>TODO supply a title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+</head>
+
+<body>
+    <table id="tabela" border="1">
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Valor unitário</th>
+                <th>Quantidade</th>
+                <th>Total do Item</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody id="dados">
+
+        </tbody>
+    </table>
+    <script type="text/javascript">
+        window.onload = function () {
+            carregaTabela();
+        };
+    
+        function carregaTabela() {
+            let carrinho = lerDados("Carrinho");
+            let ValorTotal = 0;
+            for (let i = 0; i < carrinho.length; i++) {
+                // cria uma linha
+                let linha = document.createElement("tr");
+                // cria uma coluna
+                let coluna = document.createElement("td");
+                coluna.textContent = carrinho[i].produto.id;
+                // coloca a col=una na linha
+                linha.appendChild(coluna);
+                //cria nova coluna
+                coluna = document.createElement("td");
+                coluna.textContent = valor(carrinho[i].produto.valor);
+                // soma o total do produto no toral do carrinho
+                ValorTotal += (carrinho[i].produto.valor *
+                    carrinho[i].qtd);
+                //adiciona a coluna na linha       
+                linha.appendChild(coluna);
+                //cria nova coluna
+                coluna = document.createElement("td");
+                coluna.textContent = carrinho[i].qtd;
+                //adiciona a coluna na linha
+                linha.appendChild(coluna);
+                //cria nova coluna
+                coluna = document.createElement("td");
+                coluna.textContent = valor(carrinho[i].produto.valor *
+                    carrinho[i].qtd);
+                //adciona a coluna na linha
+                linha.appendChild(coluna);
+                //cria nova linha
+                coluna = document.createElement("td");
+                //cria uma imagem
+                let imagem = document.createElement("img");
+                imagem.src = "imagens/add.png";
+                imagem.height = 30;
+    
+                imagem.addEventListener("click", function () {
+                    inserir("Carrinho", carrinho[i].produto);
+                    atualizar("dados");
+                });
+                coluna.appendChild(imagem);
+                imagem = document.createElement("img");
+                imagem.src = "imagens/subtracao.jpg";
+                imagem.height = 25;
+                imagem.addEventListener("click", function () {
+                    retira("Carrinho", carrinho[i].produto.id);
+                    atualizar("dados");
+                });
+                coluna.appendChild(imagem);
+    
+                imagem = document.createElement("img");
+                imagem.src = "imagens/trash.jpeg";
+                imagem.height = 30;
+                imagem.addEventListener("click", function () {
+                    excluir("Carrinho", carrinho[i].produto.id);
+                    atualizar("dados");
+                })
+                coluna.appendChild(imagem);
+                linha.appendChild(coluna);
+                document.getElementById("dados")
+                    .appendChild(linha);
+            }
+            let linha = document.createElement("tr");
+            let celula = document.createElement("td");
+            celula.textContent = "Total";
+            celula.colSpan = 3;
+            linha.appendChild(celula);
+    
+            celula = document.createElement("td");
+            celula.textContent = valor(ValorTotal);
+            linha.appendChild(celula);
+            document.getElementById("dados").appendChild(linha);
+            
+            let checkout = document.createElement("a")
+            checkout.textContent = "Finalizar Compra"
+            checkout.href = "checkout.html"
+            linha.appendChild(checkout);
+            document.getElementById("dados").appendChild(linha);
+        };
+        function atualizar(dados) {
+            let linhas = document.getElementById(dados).rows;
+            for (let i = linhas.length - 1; i >= 0; i--) {
+                document.getElementById(dados).deleteRow(i);
+            }
+            carregaTabela();
+        }
+    
+        
+    
+    
+    </script>
+    
+    <script src="js/funcoes.js"></script>
+</body>
+
+</html>

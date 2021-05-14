@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Compra</title>
+</head>
+
+<body>
+    <h2>Finalizar Compra</h2>
+    <h3>Por favor, insira os dados para finalizar a compra.</h3>
+    <div class="inputData">
+        Nome: <input class="name" id="name">
+        <span id="ErrorNome"></span><br>
+        CPF: <input class="cpf" id="cpf">
+        <span id="ErrorCpf"></span><br>
+        Endereço: <input class="address" id="address">
+        <span id="ErrorAddress"></span><br>
+        Email: <input class="email" id="email">
+        <span id="ErrorEmail"></span><br>
+    </div><br>
+    <table id="tabela" border="1">
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Valor unitário</th>
+                <th>Quantidade</th>
+                <th>Total do Item</th>
+
+            </tr>
+        </thead>
+
+        <tbody id="dados">
+
+        </tbody>
+    </table>
+    <br>
+    <button onclick="checkData()">FINALIZAR</button>
+
+    <script type="text/javascript">
+        window.onload = function () {
+            carregaTabela();
+        };
+
+        function carregaTabela() {
+            let carrinho = lerDados("Carrinho");
+            let ValorTotal = 0;
+            for (let i = 0; i < carrinho.length; i++) {
+                // cria uma linha
+                let linha = document.createElement("tr");
+                // cria uma coluna
+                let coluna = document.createElement("td");
+                coluna.textContent = carrinho[i].produto.id;
+                // coloca a col=una na linha
+                linha.appendChild(coluna);
+                //cria nova coluna
+                coluna = document.createElement("td");
+                coluna.textContent = valor(carrinho[i].produto.valor);
+                // soma o total do produto no toral do carrinho
+                ValorTotal += (carrinho[i].produto.valor *
+                    carrinho[i].qtd);
+                //adiciona a coluna na linha       
+                linha.appendChild(coluna);
+                //cria nova coluna
+                coluna = document.createElement("td");
+                coluna.textContent = carrinho[i].qtd;
+                //adiciona a coluna na linha
+                linha.appendChild(coluna);
+                //cria nova coluna
+                coluna = document.createElement("td");
+                coluna.textContent = valor(carrinho[i].produto.valor *
+                    carrinho[i].qtd);
+                //adciona a coluna na linha
+                linha.appendChild(coluna);
+
+                document.getElementById("dados")
+                    .appendChild(linha);
+            }
+            let linha = document.createElement("tr");
+            let celula = document.createElement("td");
+            celula.textContent = "Total";
+            celula.colSpan = 3;
+            linha.appendChild(celula);
+
+            celula = document.createElement("td");
+            celula.textContent = valor(ValorTotal);
+            linha.appendChild(celula);
+            document.getElementById("dados").appendChild(linha);
+
+        };
+        function atualizar(dados) {
+            let linhas = document.getElementById(dados).rows;
+            for (let i = linhas.length - 1; i >= 0; i--) {
+                document.getElementById(dados).deleteRow(i);
+            }
+            carregaTabela();
+        }
+
+        function checkData() {
+            if (confereCampo('name') == true) {
+                document.getElementById('ErrorNome').innerHTML = "Digite um nome";
+            } else {
+                document.getElementById('ErrorNome').innerHTML = "";
+            }
+
+            if (confereCampo('cpf') == true) {
+                document.getElementById('ErrorCpf').innerHTML = "Digite um CPF"
+            } else {
+                if (verificaCpf('cpf') == true) {
+                    document.getElementById('ErrorCpf').innerHTML = "Digite um CPF válido"
+                } else {
+                    document.getElementById('ErrorCpf').innerHTML = ""
+                }
+            }
+
+            if (confereCampo('address') == true) {
+                document.getElementById('ErrorAddress').innerHTML = "Digite um Endereço";
+            } else {
+                document.getElementById('ErrorAddress').innerHTML = "";
+            }
+            
+            if (confereCampo('email') == true) {
+                document.getElementById('ErrorEmail').innerHTML = "Digite um e-mail"
+            } else {
+                if (verificaEmail('email') == true) {
+                    document.getElementById('ErrorEmail').innerHTML = "Digite um EMAIL válido"
+                } else {
+                    document.getElementById('ErrorEmail').innerHTML = ""
+                }
+            }
+
+
+
+        }
+
+
+    </script>
+    <script src="js/funcoes.js"></script>
+</body>
+
+
+</html>

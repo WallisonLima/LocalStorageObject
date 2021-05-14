@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div id="carrinho">
+            <a href="carrinho.html">Carrinho: 
+            <span id="itens">0</span>
+            itens.</a>
+        </div>
+        <div id="hora"></div>
+        <div>
+            <table id="tabela" border="1">
+                <tr>
+                    <th colspan="2">Produto</th>
+                    <th>Descrição</th>
+                    <th colspan="2">Valor</th>
+                </tr>
+                
+            </table>
+        </div>
+    </body>
+    <script src="js/funcoes.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        let listaDeProdutos = obterProdutos();
+        function carregaTabela(){
+            let tabela = document.getElementById("tabela");
+            let linha;
+            let celula;
+            let botao;
+            
+            for (let i = 0; i < listaDeProdutos.length ; i++){
+                linha = document.createElement("tr");
+                celula= document.createElement("td");
+                imagem = document.createElement("img");
+                imagem.src = listaDeProdutos[i].url;
+                imagem.height=50;
+                celula.appendChild(imagem);
+                linha.appendChild(celula);
+                celula= document.createElement("td");
+                celula.textContent = listaDeProdutos[i].id;
+                linha.appendChild(celula);
+                celula = document.createElement("td");
+                celula.textContent = listaDeProdutos[i].descricao;
+                linha.appendChild(celula);
+                celula = document.createElement("td");
+                celula.textContent = valor(listaDeProdutos[i].valor);
+                linha.appendChild(celula);
+                
+                botao = document.createElement("button");
+                botao.id = listaDeProdutos[i].id;
+                botao.textContent = "Comprar";
+                botao.addEventListener("click", 
+                                       function(){
+                                           comprar(this.id);
+                                       });
+                celula = document.createElement("td");                       
+                celula.appendChild(botao);                       
+                linha.appendChild(celula);
+                
+                tabela.appendChild(linha);
+            }
+        }
+        function comprar(id){
+            for (let i = 0 ; i < listaDeProdutos.length;i++){
+                if (listaDeProdutos[i].id === id){
+                   inserir("Carrinho",listaDeProdutos[i]);
+                   break; 
+                }
+            }
+            AtualizaCarrinho("itens" );
+        }
+        window.onload=function(){
+            
+            setInterval( function(){
+                let meurelogio = relogio();
+                document.getElementById("hora")
+                        .textContent = meurelogio;}
+                ,1000 );
+            document.getElementById("hora")
+                    .textContent = relogio();    
+            carregaTabela();
+            AtualizaCarrinho("itens");
+        }
+        
+        function AtualizaCarrinho(local){
+            let carrinho = lerDados("Carrinho");
+            if (carrinho !== null){
+                let total = 0;
+                for (let i = 0 ; i < carrinho.length; i++){
+                    total += carrinho[i].qtd;
+                }
+                document.getElementById(local)
+                        .textContent = total;
+            }
+            else{
+                document.getElementById(local)
+                        .textContent = 0;
+            }
+        }
+    </script>
+    
+</html>
