@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
@@ -9,77 +9,49 @@
 </head>
 
 <body>
+
+    <div id="content">
+
+    </div>
     
 
 
 
-    <table id="tabela" border="1">
-        <thead>
-            <tr>
-                <th>Produto</th>
-                <th>Valor unitário</th>
-                <th>Quantidade</th>
-                <th>Total do Item</th>
-
-            </tr>
-        </thead>
-
-        <tbody id="dados">
-
-        </tbody>
-    </table>
-    <br>
-
     <script type="text/javascript">
         window.onload = function () {
-            carregaTabela();
+            carregaPedidos();
         };
 
-        function carregaTabela() {
-            let carrinho = lerDados("Carrinho");
-            let ValorTotal = 0;
-            for (let i = 0; i < carrinho.length; i++) {
-                // cria uma linha
-                let linha = document.createElement("tr");
-                // cria uma coluna
-                let coluna = document.createElement("td");
-                coluna.textContent = carrinho[i].produto.id;
-                // coloca a col=una na linha
-                linha.appendChild(coluna);
-                //cria nova coluna
-                coluna = document.createElement("td");
-                coluna.textContent = valor(carrinho[i].produto.valor);
-                // soma o total do produto no toral do carrinho
-                ValorTotal += (carrinho[i].produto.valor *
-                    carrinho[i].qtd);
-                //adiciona a coluna na linha       
-                linha.appendChild(coluna);
-                //cria nova coluna
-                coluna = document.createElement("td");
-                coluna.textContent = carrinho[i].qtd;
-                //adiciona a coluna na linha
-                linha.appendChild(coluna);
-                //cria nova coluna
-                coluna = document.createElement("td");
-                coluna.textContent = valor(carrinho[i].produto.valor *
-                    carrinho[i].qtd);
-                //adciona a coluna na linha
-                linha.appendChild(coluna);
+        async function carregaPedidos() {
+            let keys = Object.keys(localStorage);
+            const items = { ...localStorage }
+            // console.log(items)
+            for (let i = 0; i < keys.length; i++) {
+                if (keys[i] != 'undefined' && keys[i] != 'Carrinho') {
+                    let [linha, linhaTotal] = await insertTable(items[keys[i]]);
 
-                document.getElementById("dados")
-                    .appendChild(linha);
+                    let content = `<table border="1">
+                                 <thead>
+                                     <tr>
+                                         <th>Produto</th>
+                                         <th>Valor unitário</th>
+                                         <th>Quantidade</th>
+                                         <th>Total do Item</th>
+                                     </tr>
+                                 </thead>
+
+                                 <tbody>
+                                    <tr> ${linha.innerHTML}</tr>
+                                    <tr> ${linhaTotal.innerHTML}</tr>
+                                 </tbody>
+                             </table><br><br><br><br><br>`
+
+                    
+                    let cont = document.createElement('div')
+                    cont.innerHTML = content
+                    document.getElementById('content').appendChild(cont)
+                }
             }
-            let linha = document.createElement("tr");
-            let celula = document.createElement("td");
-            celula.textContent = "Total";
-            celula.colSpan = 3;
-            linha.appendChild(celula);
-
-            celula = document.createElement("td");
-            celula.textContent = valor(ValorTotal);
-            linha.appendChild(celula);
-            document.getElementById("dados").appendChild(linha);
-
         };
         function atualizar(dados) {
             let linhas = document.getElementById(dados).rows;
@@ -88,7 +60,42 @@
             }
             carregaTabela();
         }
+
+        async function insertTable(pedido) {
+            return new Promise(async (resolve, reject) => {
+                pedido = JSON.parse(pedido)
+                let cliente = pedido[0]
+                let carrinho = pedido[1]
+                let ValorTotal = 0
+
+                let linha = ''
+                for (let i = 0; i < carrinho.length; i++) {
+                    // cria uma linha
+                    linha = document.createElement('tr')
+
+                    let produto = `<td>${carrinho[i].produto.id}</td>`
+                    let preco = `<td>${carrinho[i].produto.valor}</td>`
+                    let quant = `<td>${carrinho[i].qtd}</td>`
+                    linha.innerHTML += produto
+                    linha.innerHTML += preco
+                    linha.innerHTML += quant
+
+                    ValorTotal += (carrinho[i].produto.valor *
+                        carrinho[i].qtd);
+
+                    
+                }
+                let val = await valor(ValorTotal);
+                let linhaTotal = document.createElement('tr')
+                linhaTotal.innerHTML = `<tr><td colSpan = 3>Total</td><td>${val}</td></tr>`;
+            
+                resolve([linha, linhaTotal])
+            })
+        }
+
+
     </script>
     <script src="js/funcoes.js"></script>
-</body >
-</html >
+</body>
+
+</html>

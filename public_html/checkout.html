@@ -115,21 +115,18 @@
         async function checkData() {
             return new Promise(async (resolve, reject) => {
                 let [resp, nome, cpf, email] = await checkDatas();
-                if(resp == 'Sucess'){
+                if (resp == 'Sucess') {
                     let cliente = [nome, cpf, email];
-                    // let produtos = await lerDados("Carrinho");
-                    // let pedidos = [];
-                    // pedidos.push(cliente, produtos);
-                    //let respGrava = await gravaDados(cliente[cpf], pedidos)
-                    let ler = await lerDados(cliente[cpf])
-                    console.log(ler)
-                    //criar um vetor cliente = [nome, cpf, ], produtos = [], pedido = [], pedido.push(cliente), pedido.push(produtos)
-                    //document.getElementById('check').href = "requests.html"
+                    let produtos = await lerDados("Carrinho");
+                    let pedidos = [];
+                    pedidos.push(cliente, produtos);
+                    let respGrava = await gravaDados(cliente[1], pedidos)
+                    document.getElementById('check').href = "requests.html"
                 }
             })
         }
 
-        async function checkDatas(){
+        async function checkDatas() {
             return new Promise(async (resolve, reject) => {
                 let resp = ''
                 let nome = '';
