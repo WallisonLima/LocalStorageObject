@@ -30,6 +30,7 @@
                 if (keys[i] != 'undefined' && keys[i] != 'Carrinho') {
                     let [linha, linhaTotal] = await insertTable(items[keys[i]]);
 
+                    
                     let content = `<table border="1">
                                  <thead>
                                      <tr>
@@ -46,7 +47,6 @@
                                  </tbody>
                              </table><br><br><br><br><br>`
 
-                    
                     let cont = document.createElement('div')
                     cont.innerHTML = content
                     document.getElementById('content').appendChild(cont)
@@ -69,26 +69,31 @@
                 let ValorTotal = 0
 
                 let linha = ''
-                for (let i = 0; i < carrinho.length; i++) {
+                let produto = ''
+                let preco = ''
+                let quant = ''
+            
+                
+                for (let l = 0; l < carrinho.length; l++) {
                     // cria uma linha
                     linha = document.createElement('tr')
 
-                    let produto = `<td>${carrinho[i].produto.id}</td>`
-                    let preco = `<td>${carrinho[i].produto.valor}</td>`
-                    let quant = `<td>${carrinho[i].qtd}</td>`
+                    produto += `<td>${carrinho[l].produto.id}</td>`
+                    preco += `<td>${carrinho[l].produto.valor}</td>`
+                    quant += `<td>${carrinho[l].qtd}</td>`
                     linha.innerHTML += produto
                     linha.innerHTML += preco
                     linha.innerHTML += quant
 
-                    ValorTotal += (carrinho[i].produto.valor *
-                        carrinho[i].qtd);
-
+                    ValorTotal += (carrinho[l].produto.valor * carrinho[l].qtd);
                     
                 }
+                
+                
                 let val = await valor(ValorTotal);
                 let linhaTotal = document.createElement('tr')
                 linhaTotal.innerHTML = `<tr><td colSpan = 3>Total</td><td>${val}</td></tr>`;
-            
+                console.log(linha)
                 resolve([linha, linhaTotal])
             })
         }
