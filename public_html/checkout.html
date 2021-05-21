@@ -12,12 +12,26 @@
     <h2>Finalizar Compra</h2>
     <h3>Por favor, insira os dados para finalizar a compra.</h3>
     <div class="inputData">
-        Nome: <input class="name" id="name">
+        Nome: <input class="nome" id="nome">
+
         <span id="ErrorNome"></span><br>
         CPF: <input class="cpf" id="cpf">
+
         <span id="ErrorCpf"></span><br>
-        Endereço: <input class="address" id="address">
-        <span id="ErrorAddress"></span><br>
+        Endereço: <form method="get" action=".">
+            <label>Cep:
+                <input name="cep" type="text" id="cep" value="" size="10" maxlength="9"
+                    onblur="pesquisacep(this.value);" /></label><br />
+            <label>Rua:
+                <input name="rua" type="text" id="rua" size="60" /></label><br />
+            <label>Bairro:
+                <input name="bairro" type="text" id="bairro" size="40" /></label><br />
+            <label>Cidade:
+                <input name="cidade" type="text" id="cidade" size="40" /></label><br />
+            <label>Estado:
+                <input name="uf" type="text" id="uf" size="2" /></label><br />
+
+        </form>
         Email: <input class="email" id="email">
         <span id="ErrorEmail"></span><br>
     </div><br>
@@ -37,7 +51,7 @@
         </tbody>
     </table>
     <br>
-    <button onclick="checkData()">FINALIZAR</button>
+    <a id='check' onclick="checkData()">FINALIZAR</a>
 
     <script type="text/javascript">
         window.onload = function () {
@@ -98,41 +112,65 @@
             carregaTabela();
         }
 
-        function checkData() {
-            if (confereCampo('name') == true) {
-                document.getElementById('ErrorNome').innerHTML = "Digite um nome";
-            } else {
-                document.getElementById('ErrorNome').innerHTML = "";
-            }
-
-            if (confereCampo('cpf') == true) {
-                document.getElementById('ErrorCpf').innerHTML = "Digite um CPF"
-            } else {
-                if (verificaCpf('cpf') == true) {
-                    document.getElementById('ErrorCpf').innerHTML = "Digite um CPF válido"
-                } else {
-                    document.getElementById('ErrorCpf').innerHTML = ""
+        async function checkData() {
+            return new Promise(async (resolve, reject) => {
+                let [resp, nome, cpf, email] = await checkDatas();
+                if(resp == 'Sucess'){
+                    let cliente = [nome, cpf, email];
+                    // let produtos = await lerDados("Carrinho");
+                    // let pedidos = [];
+                    // pedidos.push(cliente, produtos);
+                    //let respGrava = await gravaDados(cliente[cpf], pedidos)
+                    let ler = await lerDados(cliente[cpf])
+                    console.log(ler)
+                    //criar um vetor cliente = [nome, cpf, ], produtos = [], pedido = [], pedido.push(cliente), pedido.push(produtos)
+                    //document.getElementById('check').href = "requests.html"
                 }
-            }
+            })
+        }
 
-            if (confereCampo('address') == true) {
-                document.getElementById('ErrorAddress').innerHTML = "Digite um Endereço";
-            } else {
-                document.getElementById('ErrorAddress').innerHTML = "";
-            }
-            
-            if (confereCampo('email') == true) {
-                document.getElementById('ErrorEmail').innerHTML = "Digite um e-mail"
-            } else {
-                if (verificaEmail('email') == true) {
-                    document.getElementById('ErrorEmail').innerHTML = "Digite um EMAIL válido"
+        async function checkDatas(){
+            return new Promise(async (resolve, reject) => {
+                let resp = ''
+                let nome = '';
+                let cpf = '';
+                let email = '';
+                if (confereCampo('nome') == true) {
+                    document.getElementById('ErrorNome').innerHTML = "Digite um nome";
+                    resp = ''
                 } else {
-                    document.getElementById('ErrorEmail').innerHTML = ""
+                    nome = document.getElementById('nome').value
+                    document.getElementById('ErrorNome').innerHTML = "";
+                    resp = 'Sucess'
                 }
-            }
-
-
-
+                if (confereCampo('cpf') == true) {
+                    document.getElementById('ErrorCpf').innerHTML = "Digite um CPF"
+                    resp = ''
+                } else {
+                    if (verificaCpf('cpf') == true) {
+                        document.getElementById('ErrorCpf').innerHTML = "Digite um CPF válido"
+                        resp = ''
+                    } else {
+                        cpf = document.getElementById('cpf').value
+                        document.getElementById('ErrorCpf').innerHTML = ""
+                        resp = 'Sucess'
+                    }
+                }
+                if (confereCampo('email') == true) {
+                    document.getElementById('ErrorEmail').innerHTML = "Digite um e-mail"
+                    resp = ''
+                } else {
+                    if (verificaEmail('email') == true) {
+                        document.getElementById('ErrorEmail').innerHTML = "Digite um EMAIL válido"
+                        resp = ''
+                    } else {
+                        email = document.getElementById('email').value
+                        document.getElementById('ErrorEmail').innerHTML = ""
+                        resp = 'Sucess'
+                    }
+                }
+                resolve([resp, nome, cpf, email])
+            })
         }
 
 
