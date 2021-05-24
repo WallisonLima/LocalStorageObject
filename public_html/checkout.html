@@ -13,25 +13,30 @@
     <h3>Por favor, insira os dados para finalizar a compra.</h3>
     <div class="inputData">
         Nome: <input class="nome" id="nome">
-
         <span id="ErrorNome"></span><br>
-        CPF: <input class="cpf" id="cpf">
 
+        CPF: <input class="cpf" id="cpf">
         <span id="ErrorCpf"></span><br>
+
         Endereço: <form method="get" action=".">
             <label>Cep:
                 <input name="cep" type="text" id="cep" value="" size="10" maxlength="9"
-                    onblur="pesquisacep(this.value);" /></label><br />
+                    onblur="pesquisacep(this.value);" /></label>
+                    <span id="ErrorCep"></span><br><br />
             <label>Rua:
-                <input name="rua" type="text" id="rua" size="60" /></label><br />
+                <input name="rua" type="text" id="rua" size="60" /></label>
+                <span id="ErrorRua"></span><br><br />
             <label>Bairro:
-                <input name="bairro" type="text" id="bairro" size="40" /></label><br />
+                <input name="bairro" type="text" id="bairro" size="40" /></label>
+                <span id="ErrorBairro"></span><br><br />
             <label>Cidade:
-                <input name="cidade" type="text" id="cidade" size="40" /></label><br />
+                <input name="cidade" type="text" id="cidade" size="40" /></label>
+                <span id="ErrorCidade"></span><br><br />
             <label>Estado:
-                <input name="uf" type="text" id="uf" size="2" /></label><br />
-
+                <input name="uf" type="text" id="uf" size="2" /></label>
+                <span id="ErrorEstado"></span><br><br />
         </form>
+
         Email: <input class="email" id="email">
         <span id="ErrorEmail"></span><br>
     </div><br>
@@ -114,9 +119,9 @@
 
         async function checkData() {
             return new Promise(async (resolve, reject) => {
-                let [resp, nome, cpf, email] = await checkDatas();
+                let [resp, nome, cpf, email, cep, rua, bairro, cidade, uf] = await checkDatas();
                 if (resp == 'Sucess') {
-                    let cliente = [nome, cpf, email];
+                    let cliente = [nome, cpf, email, cep, rua, bairro, cidade, uf];
                     let produtos = await lerDados("Carrinho");
                     let pedidos = [];
                     pedidos.push(cliente, produtos);
@@ -132,6 +137,12 @@
                 let nome = '';
                 let cpf = '';
                 let email = '';
+                let cep = '';
+                let rua = '';
+                let bairro = '';
+                let cidade = '';
+                let uf = '';
+
                 if (confereCampo('nome') == true) {
                     document.getElementById('ErrorNome').innerHTML = "Digite um nome";
                     resp = ''
@@ -166,7 +177,22 @@
                         resp = 'Sucess'
                     }
                 }
-                resolve([resp, nome, cpf, email])
+
+                if (confereCampo('cep') == true) {
+                    document.getElementById('ErrorCep').innerHTML = "Digite um Cep"
+                    resp = ''
+                } 
+                else {
+                    cep = document.getElementById('cep').value
+                    rua = document.getElementById('rua').value
+                    bairro = document.getElementById('bairro').value
+                    cidade = document.getElementById('cidade').value
+                    uf = document.getElementById('uf').value
+                    resp = 'Sucess'
+                }
+                
+                
+                resolve([resp, nome, cpf, email, cep, rua, bairro, cidade, uf])
             })
         }
 
