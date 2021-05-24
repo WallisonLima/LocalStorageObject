@@ -56,7 +56,12 @@
         </tbody>
     </table>
     <br>
-    <a id='check' onclick="checkData()">FINALIZAR</a>
+    <div>
+        <a id='check' onclick="checkData()">FINALIZAR</a>
+    </div><br>
+    <div>
+        <a href="index.html"> Voltar para a Home</a>
+    </div>    
 
     <script type="text/javascript">
         window.onload = function () {
@@ -67,33 +72,22 @@
             let carrinho = lerDados("Carrinho");
             let ValorTotal = 0;
             for (let i = 0; i < carrinho.length; i++) {
-                // cria uma linha
                 let linha = document.createElement("tr");
-                // cria uma coluna
                 let coluna = document.createElement("td");
                 coluna.textContent = carrinho[i].produto.id;
-                // coloca a col=una na linha
                 linha.appendChild(coluna);
-                //cria nova coluna
                 coluna = document.createElement("td");
                 coluna.textContent = valor(carrinho[i].produto.valor);
-                // soma o total do produto no toral do carrinho
                 ValorTotal += (carrinho[i].produto.valor *
-                    carrinho[i].qtd);
-                //adiciona a coluna na linha       
+                    carrinho[i].qtd);    
                 linha.appendChild(coluna);
-                //cria nova coluna
                 coluna = document.createElement("td");
                 coluna.textContent = carrinho[i].qtd;
-                //adiciona a coluna na linha
                 linha.appendChild(coluna);
-                //cria nova coluna
                 coluna = document.createElement("td");
                 coluna.textContent = valor(carrinho[i].produto.valor *
                     carrinho[i].qtd);
-                //adciona a coluna na linha
                 linha.appendChild(coluna);
-
                 document.getElementById("dados")
                     .appendChild(linha);
             }
@@ -142,7 +136,6 @@
                 let bairro = '';
                 let cidade = '';
                 let uf = '';
-
                 if (confereCampo('nome') == true) {
                     document.getElementById('ErrorNome').innerHTML = "Digite um nome";
                     resp = ''
@@ -177,7 +170,6 @@
                         resp = 'Sucess'
                     }
                 }
-
                 if (confereCampo('cep') == true) {
                     document.getElementById('ErrorCep').innerHTML = "Digite um Cep"
                     resp = ''
@@ -190,8 +182,6 @@
                     uf = document.getElementById('uf').value
                     resp = 'Sucess'
                 }
-                
-                
                 resolve([resp, nome, cpf, email, cep, rua, bairro, cidade, uf])
             })
         }

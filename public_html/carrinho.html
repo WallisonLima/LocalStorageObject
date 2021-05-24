@@ -1,16 +1,10 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
 
 <head>
-    <title>TODO supply a title</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <title>Carrinho</title>
 </head>
 
 <body>
@@ -29,6 +23,10 @@ and open the template in the editor.
 
         </tbody>
     </table>
+
+    <br><div>
+        <a href="index.html"> Voltar para a Home</a>
+    </div> 
     <script type="text/javascript">
         window.onload = function () {
             carregaTabela();
@@ -38,35 +36,23 @@ and open the template in the editor.
             let carrinho = lerDados("Carrinho");
             let ValorTotal = 0;
             for (let i = 0; i < carrinho.length; i++) {
-                // cria uma linha
                 let linha = document.createElement("tr");
-                // cria uma coluna
                 let coluna = document.createElement("td");
                 coluna.textContent = carrinho[i].produto.id;
-                // coloca a col=una na linha
                 linha.appendChild(coluna);
-                //cria nova coluna
                 coluna = document.createElement("td");
                 coluna.textContent = valor(carrinho[i].produto.valor);
-                // soma o total do produto no toral do carrinho
                 ValorTotal += (carrinho[i].produto.valor *
-                    carrinho[i].qtd);
-                //adiciona a coluna na linha       
+                    carrinho[i].qtd); 
                 linha.appendChild(coluna);
-                //cria nova coluna
                 coluna = document.createElement("td");
                 coluna.textContent = carrinho[i].qtd;
-                //adiciona a coluna na linha
                 linha.appendChild(coluna);
-                //cria nova coluna
                 coluna = document.createElement("td");
                 coluna.textContent = valor(carrinho[i].produto.valor *
                     carrinho[i].qtd);
-                //adciona a coluna na linha
                 linha.appendChild(coluna);
-                //cria nova linha
                 coluna = document.createElement("td");
-                //cria uma imagem
                 let imagem = document.createElement("img");
                 imagem.src = "imagens/add.png";
                 imagem.height = 30;
@@ -121,9 +107,6 @@ and open the template in the editor.
             }
             carregaTabela();
         }
-    
-        
-    
     
     </script>
     
