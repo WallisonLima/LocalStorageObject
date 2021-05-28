@@ -81,44 +81,29 @@ function lerDados(nomeChave) {
 
 
 
-function obterProdutos(id, description, value, img) {
+function obterProdutos(produto) {
     let listaprodutos = [];
     
-    let produto = {
-        id: id,
-        descricao: description,
-        valor: value,
-        url: img
-    };
-    listaprodutos.push(produto);
-    produto = {
-        id: "Calça Jeans feminina",
-        descricao: "Calça Jeans feminina ciano",
-        valor: 60.55,
-        url: "https://images-americanas.b2w.io/produtos/01/00/img/107095/5/107095590_1GG.jpg"
-    };
-    listaprodutos.push(produto);
-    produto = {
-        id: "Batedeira",
-        descricao: "Batederira planetária",
-        valor: 120.67,
-        url: "./imagens/03868a5f80e6b886ea5805d9bac1a81e.jpg"
-    };
-    listaprodutos.push(produto);
-    produto = {
-        id: "Mouse",
-        descricao: "Mouse sem fio bluetooth",
-        valor: 20.00,
-        url: "https://img.ibxk.com.br/2020/05/21/21010449898023.jpg?w=1120&h=420&mode=crop&scale=both"
-    };
-    listaprodutos.push(produto);
+   // console.log(produto[0])
+    for (let each of produto[0]) {
+        console.log(each)
+            // let produto = {
+            //     id: each.id,
+            //     descricao: each.description,
+            //     valor: each.value,
+            //     url: each.img
+            // };
+            // listaprodutos.push(produto);
+        
+    }
+    console.log(listaprodutos)
 
     return listaprodutos;
 }
 
 
 function valor(numero) {
-    return new Intl.NumberFormat("pt-BR",{
+    return new Intl.NumberFormat("pt-BR", {
         style: "currency",
         currency: "BRL"
     }).format(numero);
@@ -228,7 +213,7 @@ function pesquisacep(valor) {
             limpa_formulário_cep();
             alert("Formato de CEP inválido.");
         }
-    } 
+    }
     else {
         limpa_formulário_cep();
     }

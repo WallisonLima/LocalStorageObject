@@ -7,7 +7,7 @@ module.exports.GetProducts = async function GetProducts(){
         let content = '';
         for(let product of products){
             let id = product._id;
-            tr += `<tr>`;
+            tr += `<tr class="trProduct">`;
             let img = `<td><img src=${product.img} height="50"></td>`;
             let produto = `<td>${product.product}</td>`;
             let desc = `<td>${product.description}</td>`;
