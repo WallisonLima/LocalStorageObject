@@ -1,13 +1,7 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 function gravaDados(nomeChave, conteudo) {
     if (window.localStorage) {
         let dados = JSON.stringify(conteudo);
         localStorage.setItem(nomeChave, dados);
-        //alert(dados);
         return dados
     }
     else {
@@ -15,73 +9,50 @@ function gravaDados(nomeChave, conteudo) {
     }
 }
 
+
 function inserir(nomeChave, conteudo) {
-    // cria um objeto novo com o produto 
-    // e a quantidade inicial em 1
     let item = { produto: conteudo, qtd: 1 };
-    // ler a os dados atuais
     let itens = lerDados(nomeChave);
-    //produra nos itens gravados a existencia do produto
     for (let i = 0; i < itens.length; i++) {
         if (itens[i].produto.id == conteudo.id) {
-            // produto localizado, adicionar mais um, grava e 
-            // sai da rotina
             itens[i].qtd++;
             gravaDados(nomeChave, itens);
             return;
         }
     }
-    // acrescenta um novo dados quanto não acha o produto
-    // no processo dentro do for.
     itens.push(item);
-    //grava os dados atualizados
     gravaDados(nomeChave, itens);
 }
 
+
 function retira(nomeChave, conteudo) {
-    // le os dados atuais
     let atual = lerDados(nomeChave);
-    //percorre as informaçoes gravadas
     for (let i = 0; i < atual.length; i++) {
-        // compara o dados gravado como que será removido
         if (atual[i].produto.id == conteudo) {
-            // se o produto tem uma unidade
-            // remove o produto do carrinho de compra
             if (atual[i].qtd == 1) {
-                // slice remove elementos do array a 
-                // partir de I contando i1 elemento;
                 atual.splice(i, 1);
             }
             else {
-                // retira uma unidade do produto
                 atual[i].qtd--;
             }
             break;
         }
     }
-    // grava os dados atualizados
     gravaDados(nomeChave, atual);
 }
-// esta funcao serve para remover o produto do carrinho
-// e a versão antiga do retirar
+
+
 function excluir(nomeChave, conteudo) {
-    // le os dados atuais
     let atual = lerDados(nomeChave);
-    //percorre as informaçoes gravadas
     for (let i = 0; i < atual.length; i++) {
-        // compara o dados gravado como que será removido
         if (atual[i].produto.id == conteudo) {
-            // slice remove elementos do array a 
-            // partir de I contando i1 elemento;
             atual.splice(i, 1);
             break;
         }
-
     }
-
-    // grava os dados atualizados
     gravaDados(nomeChave, atual);
 }
+
 
 function lerDados(nomeChave) {
     //localStorage.clear();
@@ -103,6 +74,7 @@ function lerDados(nomeChave) {
     return false;
 }
 
+
 function relogio() {
     let tempo = new Date;
     let h = (tempo.getHours() < 10 ? "0" : "")
@@ -113,6 +85,7 @@ function relogio() {
         + tempo.getSeconds();
     return h + ":" + m + ":" + s;
 }
+
 
 function obterProdutos() {
     let listaprodutos = [];
@@ -148,22 +121,19 @@ function obterProdutos() {
     return listaprodutos;
 }
 
-function valor(numero) {
-    // formata um valor no padrão da moeda do Brasil
-    return new Intl.NumberFormat("pt-BR",
-        {
-            style: "currency",
-            currency: "BRL"
-        })
-        .format(numero);
-    // R$
-}
 
+function valor(numero) {
+    return new Intl.NumberFormat("pt-BR",{
+        style: "currency",
+        currency: "BRL"
+    }).format(numero);
+}
 
 
 function checkout(carrinho) {
     console.log(carrinho)
 }
+
 
 function confereCampo(id) {
     let campo = document.getElementById(id).value;
@@ -172,6 +142,7 @@ function confereCampo(id) {
     }
     return false
 }
+
 
 function verificaCpf(id) {
     let cpf = document.getElementById(id).value
@@ -210,6 +181,7 @@ function verificaCpf(id) {
     return false;
 }
 
+
 function verificaEmail(id) {
     let campo = document.getElementById(id).value;
     if (campo.length > 60) {
@@ -221,12 +193,14 @@ function verificaEmail(id) {
     return true;
 }
 
+
 function limpa_formulário_cep() {
     document.getElementById('rua').value = ("");
     document.getElementById('bairro').value = ("");
     document.getElementById('cidade').value = ("");
     document.getElementById('uf').value = ("")
 }
+
 
 function meu_callback(conteudo) {
     if (!("erro" in conteudo)) {
@@ -241,13 +215,11 @@ function meu_callback(conteudo) {
     }
 }
 
+
 function pesquisacep(valor) {
     let cep = valor.replace(/\D/g, '');
-
     if (cep != "") {
-
         let validacep = /^[0-9]{8}$/;
-
         if (validacep.test(cep)) {
             document.getElementById('rua').value = "...";
             document.getElementById('bairro').value = "...";
