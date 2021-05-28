@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho</title>
+</head>
+
+<body>
+    <table id="tabela" border="1">
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Valor unitário</th>
+                <th>Quantidade</th>
+                <th>Total do Item</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody id="dados">
+
+        </tbody>
+    </table>
+
+    <br><div>
+        <a href="/"> Voltar para a Home</a>
+    </div> 
+    <script type="text/javascript">
+        window.onload = function () {
+            carregaTabela();
+        };
+    
+        function carregaTabela() {
+            let carrinho = lerDados("Carrinho");
+            let ValorTotal = 0;
+            for (let i = 0; i < carrinho.length; i++) {
+                let linha = document.createElement("tr");
+                let coluna = document.createElement("td");
+                coluna.textContent = carrinho[i].produto.id;
+                linha.appendChild(coluna);
+                coluna = document.createElement("td");
+                coluna.textContent = valor(carrinho[i].produto.valor);
+                ValorTotal += (carrinho[i].produto.valor *
+                    carrinho[i].qtd); 
+                linha.appendChild(coluna);
+                coluna = document.createElement("td");
+                coluna.textContent = carrinho[i].qtd;
+                linha.appendChild(coluna);
+                coluna = document.createElement("td");
+                coluna.textContent = valor(carrinho[i].produto.valor *
+                    carrinho[i].qtd);
+                linha.appendChild(coluna);
+                coluna = document.createElement("td");
+                let imagem = document.createElement("img");
+                imagem.src = "imagens/add.png";
+                imagem.height = 30;
+    
+                imagem.addEventListener("click", function () {
+                    inserir("Carrinho", carrinho[i].produto);
+                    atualizar("dados");
+                });
+                coluna.appendChild(imagem);
+                imagem = document.createElement("img");
+                imagem.src = "imagens/subtracao.jpg";
+                imagem.height = 25;
+                imagem.addEventListener("click", function () {
+                    retira("Carrinho", carrinho[i].produto.id);
+                    atualizar("dados");
+                });
+                coluna.appendChild(imagem);
+    
+                imagem = document.createElement("img");
+                imagem.src = "imagens/trash.jpeg";
+                imagem.height = 30;
+                imagem.addEventListener("click", function () {
+                    excluir("Carrinho", carrinho[i].produto.id);
+                    atualizar("dados");
+                })
+                coluna.appendChild(imagem);
+                linha.appendChild(coluna);
+                document.getElementById("dados")
+                    .appendChild(linha);
+            }
+            let linha = document.createElement("tr");
+            let celula = document.createElement("td");
+            celula.textContent = "Total";
+            celula.colSpan = 3;
+            linha.appendChild(celula);
+    
+            celula = document.createElement("td");
+            celula.textContent = valor(ValorTotal);
+            linha.appendChild(celula);
+            document.getElementById("dados").appendChild(linha);
+            
+            let checkout = document.createElement("a")
+            checkout.textContent = "Finalizar Compra"
+            checkout.href = "/cadastro"
+            linha.appendChild(checkout);
+            document.getElementById("dados").appendChild(linha);
+        };
+        function atualizar(dados) {
+            let linhas = document.getElementById(dados).rows;
+            for (let i = linhas.length - 1; i >= 0; i--) {
+                document.getElementById(dados).deleteRow(i);
+            }
+            carregaTabela();
+        }
+    </script>
+    
+    <script src="../js/funcoes.js"></script>
+</body>
+
+</html>

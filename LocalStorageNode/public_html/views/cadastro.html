@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Compra</title>
+</head>
+
+<body>
+    <h2>Finalizar Compra</h2>
+    <h3>Por favor, insira os dados para finalizar a compra.</h3>
+    <div class="inputData">
+        Nome: <input class="nome" id="nome">
+        <span id="ErrorNome"></span><br>
+
+        CPF: <input class="cpf" id="cpf">
+        <span id="ErrorCpf"></span><br>
+
+        Endereço: <form method="get" action=".">
+            <label>Cep:
+                <input name="cep" type="text" id="cep" value="" size="10" maxlength="9"
+                    onblur="pesquisacep(this.value);" /></label>
+                    <span id="ErrorCep"></span><br><br />
+            <label>Rua:
+                <input name="rua" type="text" id="rua" size="60" /></label>
+                <span id="ErrorRua"></span><br><br />
+            <label>Bairro:
+                <input name="bairro" type="text" id="bairro" size="40" /></label>
+                <span id="ErrorBairro"></span><br><br />
+            <label>Cidade:
+                <input name="cidade" type="text" id="cidade" size="40" /></label>
+                <span id="ErrorCidade"></span><br><br />
+            <label>Estado:
+                <input name="uf" type="text" id="uf" size="2" /></label>
+                <span id="ErrorEstado"></span><br><br />
+        </form>
+
+        Email: <input class="email" id="email">
+        <span id="ErrorEmail"></span><br>
+    </div><br>
+    <table id="tabela" border="1">
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Valor unitário</th>
+                <th>Quantidade</th>
+                <th>Total do Item</th>
+
+            </tr>
+        </thead>
+
+        <tbody id="dados">
+
+        </tbody>
+    </table>
+    <br>
+    <div>
+        <a id='check' onclick="checkData()">FINALIZAR</a>
+    </div><br>
+    <div>
+        <a href="/"> Voltar para a Home</a>
+    </div>    
+
+    <script type="text/javascript">
+        window.onload = function () {
+            carregaTabela();
+        };
+
+        function carregaTabela() {
+            let carrinho = lerDados("Carrinho");
+            let ValorTotal = 0;
+            for (let i = 0; i < carrinho.length; i++) {
+                let linha = document.createElement("tr");
+                let coluna = document.createElement("td");
+                coluna.textContent = carrinho[i].produto.id;
+                linha.appendChild(coluna);
+                coluna = document.createElement("td");
+                coluna.textContent = valor(carrinho[i].produto.valor);
+                ValorTotal += (carrinho[i].produto.valor *
+                    carrinho[i].qtd);    
+                linha.appendChild(coluna);
+                coluna = document.createElement("td");
+                coluna.textContent = carrinho[i].qtd;
+                linha.appendChild(coluna);
+                coluna = document.createElement("td");
+                coluna.textContent = valor(carrinho[i].produto.valor *
+                    carrinho[i].qtd);
+                linha.appendChild(coluna);
+                document.getElementById("dados")
+                    .appendChild(linha);
+            }
+            let linha = document.createElement("tr");
+            let celula = document.createElement("td");
+            celula.textContent = "Total";
+            celula.colSpan = 3;
+            linha.appendChild(celula);
+
+            celula = document.createElement("td");
+            celula.textContent = valor(ValorTotal);
+            linha.appendChild(celula);
+            document.getElementById("dados").appendChild(linha);
+
+        };
+        function atualizar(dados) {
+            let linhas = document.getElementById(dados).rows;
+            for (let i = linhas.length - 1; i >= 0; i--) {
+                document.getElementById(dados).deleteRow(i);
+            }
+            carregaTabela();
+        }
+
+        async function checkData() {
+            return new Promise(async (resolve, reject) => {
+                let [resp, nome, cpf, email, cep, rua, bairro, cidade, uf] = await checkDatas();
+                if (resp == 'Sucess') {
+                    let cliente = [nome, cpf, email, cep, rua, bairro, cidade, uf];
+                    let produtos = await lerDados("Carrinho");
+                    let pedidos = [];
+                    pedidos.push(cliente, produtos);
+                    let respGrava = await gravaDados(cliente[1], pedidos)
+                    document.getElementById('check').href = "/pedidos"
+                }
+            })
+        }
+
+        async function checkDatas() {
+            return new Promise(async (resolve, reject) => {
+                let resp = ''
+                let nome = '';
+                let cpf = '';
+                let email = '';
+                let cep = '';
+                let rua = '';
+                let bairro = '';
+                let cidade = '';
+                let uf = '';
+                if (confereCampo('nome') == true) {
+                    document.getElementById('ErrorNome').innerHTML = "Digite um nome";
+                    resp = ''
+                } else {
+                    nome = document.getElementById('nome').value
+                    document.getElementById('ErrorNome').innerHTML = "";
+                    resp = 'Sucess'
+                }
+                if (confereCampo('cpf') == true) {
+                    document.getElementById('ErrorCpf').innerHTML = "Digite um CPF"
+                    resp = ''
+                } else {
+                    if (verificaCpf('cpf') == true) {
+                        document.getElementById('ErrorCpf').innerHTML = "Digite um CPF válido"
+                        resp = ''
+                    } else {
+                        cpf = document.getElementById('cpf').value
+                        document.getElementById('ErrorCpf').innerHTML = ""
+                        resp = 'Sucess'
+                    }
+                }
+                if (confereCampo('email') == true) {
+                    document.getElementById('ErrorEmail').innerHTML = "Digite um e-mail"
+                    resp = ''
+                } else {
+                    if (verificaEmail('email') == true) {
+                        document.getElementById('ErrorEmail').innerHTML = "Digite um EMAIL válido"
+                        resp = ''
+                    } else {
+                        email = document.getElementById('email').value
+                        document.getElementById('ErrorEmail').innerHTML = ""
+                        resp = 'Sucess'
+                    }
+                }
+                if (confereCampo('cep') == true) {
+                    document.getElementById('ErrorCep').innerHTML = "Digite um Cep"
+                    resp = ''
+                } 
+                else {
+                    cep = document.getElementById('cep').value
+                    rua = document.getElementById('rua').value
+                    bairro = document.getElementById('bairro').value
+                    cidade = document.getElementById('cidade').value
+                    uf = document.getElementById('uf').value
+                    resp = 'Sucess'
+                }
+                resolve([resp, nome, cpf, email, cep, rua, bairro, cidade, uf])
+            })
+        }
+
+
+    </script>
+    <script src="../js/funcoes.js"></script>
+</body>
+
+
+</html>

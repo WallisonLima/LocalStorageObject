@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+
+<body>
+    <div id="carrinho">
+        <a href="/carrinho">Carrinho:
+            <span id="itens">0</span>
+            itens.</a>
+    </div><br>
+    <div>
+        <a href="/pedidos"> Pedidos </a>
+    </div><br>
+    <div id="hora"></div>
+    <div>
+        <table id="tabela" border="1">
+            <tr>
+                <th colspan="2">Produto</th>
+                <th>Descrição</th>
+                <th colspan="2">Valor</th>
+            </tr>
+            {{Produtos}}
+        </table>
+    </div>
+</body>
+<script src="../js/funcoes.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        let listaDeProdutos = obterProdutos();
+        console.log(listaDeProdutos)
+        function comprar(id){
+            for (let i = 0 ; i < listaDeProdutos.length;i++){
+                if (listaDeProdutos[i].id === id){
+                   inserir("Carrinho",listaDeProdutos[i]);
+                   break; 
+                }
+            }
+            AtualizaCarrinho("itens" );
+        }
+              
+        function AtualizaCarrinho(local){
+            let carrinho = lerDados("Carrinho");
+            if (carrinho !== null){
+                let total = 0;
+                for (let i = 0 ; i < carrinho.length; i++){
+                    total += carrinho[i].qtd;
+                }
+                document.getElementById(local)
+                        .textContent = total;
+            }
+            else{
+                document.getElementById(local)
+                        .textContent = 0;
+            }
+        }
+    </script>
+
+</html>
