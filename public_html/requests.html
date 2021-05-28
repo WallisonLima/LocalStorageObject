@@ -17,7 +17,7 @@
     <div id="home">
         <a href="index.html" onclick="limparCarrinho()">Voltar a Home</a>
     </div>
-    
+
 
 
 
@@ -31,9 +31,9 @@
             const items = { ...localStorage }
             for (let i = 0; i < keys.length; i++) {
                 if (keys[i] != 'undefined' && keys[i] != 'Carrinho') {
-                    let [linha, linhaTotal] = await insertTable(items[keys[i]]); 
+                    let [linha, linhaTotal] = await insertTable(items[keys[i]]);
                     let cliente = await insertCliente(items[keys[i]]);
-                    let product = `<table border="1">
+                    let product = `<table border="1" >
                                  <thead>
                                      <tr>
                                          <th>Produto</th>
@@ -42,8 +42,8 @@
                                          <th>Total do Item</th>
                                      </tr>
                                  </thead>
-                                 <tbody>
-                                    <tr> ${linha.innerHTML}</tr>
+                                 <tbody id="tabelaDinamica">
+                                    <tr> ${linha} </tr>
                                     <tr> ${linhaTotal.innerHTML}</tr>
                                  </tbody>
                              </table><br><br><br>`
@@ -52,7 +52,7 @@
                     cont.innerHTML += cliente
                     cont.innerHTML += product
                     document.getElementById('content').appendChild(cont)
-                    
+
                 }
             }
         };
@@ -70,73 +70,64 @@
                 let cliente = pedido[0]
                 let carrinho = pedido[1]
                 let ValorTotal = 0
-
-                let linha = document.createElement('tr')
-                let produto = ''
-                let preco = ''
-                let quant = ''
-            
-                
+                let linha = '';                
                 for (let l = 0; l < carrinho.length; l++) {
-                    // cria uma linha
-                    if(linha == ''){
-                        linha = document.createElement('tr')
-                    }else{
-                        produto = `<td>${carrinho[l].produto.id}</td>`
-                        preco = `<td>${carrinho[l].produto.valor}</td>`
-                        quant = `<td>${carrinho[l].qtd}</td>`
-                        linha.innerHTML += produto
-                        linha.innerHTML += preco
-                        linha.innerHTML += quant
-                    }
+                    linha += `<tr>`
+                    let produto = `<td>${carrinho[l].produto.id}</td>`
+                    let preco = `<td>${carrinho[l].produto.valor}</td>`
+                    let quant = `<td>${carrinho[l].qtd}</td>`
+                    let totalitem = `<td>${carrinho[l].produto.valor * carrinho[l].qtd}</td>`
+                    linha += produto
+                    linha += preco
+                    linha += quant
+                    linha += totalitem
                     ValorTotal += (carrinho[l].produto.valor * carrinho[l].qtd);
+                    linha += `</tr>`
                 }
-                
-                
                 let val = await valor(ValorTotal);
                 let linhaTotal = document.createElement('tr')
                 linhaTotal.innerHTML = `<tr><td colSpan = 3>Total</td><td>${val}</td></tr>`;
-                resolve([linha, linhaTotal])
+                resolve([linha , linhaTotal])
             })
         }
 
-        async function insertCliente(pedido){
-            return new Promise(async (resolve, reject)=>{
+        async function insertCliente(pedido) {
+            return new Promise(async (resolve, reject) => {
                 pedido = JSON.parse(pedido)
                 console.log(pedido)
-                let nome = ''            
-                let cpf = ''            
-                let email = ''            
-                let cep = ''            
-                let rua = ''            
-                let bairro = ''            
-                let cidade = ''            
-                let uf = ''            
+                let nome = ''
+                let cpf = ''
+                let email = ''
+                let cep = ''
+                let rua = ''
+                let bairro = ''
+                let cidade = ''
+                let uf = ''
                 let i = 0;
-                
-                for(let each of pedido[0]){
-                    if(i == 0){
+
+                for (let each of pedido[0]) {
+                    if (i == 0) {
                         nome = each
                     }
-                    else if(i == 1){
+                    else if (i == 1) {
                         cpf = each
                     }
-                    else if(i == 2){
+                    else if (i == 2) {
                         email = each
                     }
-                    else if(i == 3){
+                    else if (i == 3) {
                         cep = each
                     }
-                    else if(i == 4){
+                    else if (i == 4) {
                         rua = each
                     }
-                    else if(i == 5){
+                    else if (i == 5) {
                         bairro = each
                     }
-                    else if(i == 6){
+                    else if (i == 6) {
                         cidade = each
                     }
-                    else if(i == 7){
+                    else if (i == 7) {
                         uf = each
                     }
                     i++
@@ -156,7 +147,7 @@
             })
         }
 
-        function limparCarrinho(){
+        function limparCarrinho() {
             localStorage.removeItem("Carrinho");
             return
         }
