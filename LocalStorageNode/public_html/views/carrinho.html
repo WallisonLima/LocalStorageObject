@@ -38,7 +38,8 @@
             for (let i = 0; i < carrinho.length; i++) {
                 let linha = document.createElement("tr");
                 let coluna = document.createElement("td");
-                coluna.textContent = carrinho[i].produto.id;
+                coluna.textContent = carrinho[i].produto.produto;
+                
                 linha.appendChild(coluna);
                 coluna = document.createElement("td");
                 coluna.textContent = valor(carrinho[i].produto.valor);

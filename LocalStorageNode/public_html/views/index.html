@@ -30,9 +30,9 @@
 </body>
 <script src="../js/funcoes.js" type="text/javascript"></script>
     <script type="text/javascript">
+
         let pedidos = document.getElementsByClassName('trProduct')
         let listaDeProdutos = obterProdutos(pedidos, pedidos);
-        
         function comprar(id){
             for (let i = 0 ; i < listaDeProdutos.length;i++){
                 if (listaDeProdutos[i].id === id){

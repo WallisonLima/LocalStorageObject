@@ -84,17 +84,15 @@ function lerDados(nomeChave) {
 function obterProdutos(produto) {
     let listaprodutos = [];
     
-   // console.log(produto[0])
-    for (let each of produto[0]) {
-        console.log(each)
-            // let produto = {
-            //     id: each.id,
-            //     descricao: each.description,
-            //     valor: each.value,
-            //     url: each.img
-            // };
-            // listaprodutos.push(produto);
-        
+    for (let each of produto) {
+        let produto = {
+            id: each.children[4].firstChild.id,
+            produto: each.children[1].innerText,
+            descricao: each.children[2].innerText,
+            valor: each.children[3].innerText,
+            url: each.children[0].children[0].currentSrc
+        };
+        listaprodutos.push(produto);
     }
     console.log(listaprodutos)
 
@@ -218,3 +216,4 @@ function pesquisacep(valor) {
         limpa_formulário_cep();
     }
 };
+

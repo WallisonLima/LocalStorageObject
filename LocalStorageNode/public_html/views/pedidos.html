@@ -17,10 +17,7 @@
     <div id="home">
         <a href="/" onclick="limparCarrinho()">Voltar a Home</a>
     </div>
-
-
-
-
+    
     <script type="text/javascript">
         window.onload = function () {
             carregaPedidos();
@@ -52,7 +49,6 @@
                     cont.innerHTML += cliente
                     cont.innerHTML += product
                     document.getElementById('content').appendChild(cont)
-
                 }
             }
         };
@@ -73,7 +69,7 @@
                 let linha = '';                
                 for (let l = 0; l < carrinho.length; l++) {
                     linha += `<tr>`
-                    let produto = `<td>${carrinho[l].produto.id}</td>`
+                    let produto = `<td>${carrinho[l].produto.produto}</td>`
                     let preco = `<td>${carrinho[l].produto.valor}</td>`
                     let quant = `<td>${carrinho[l].qtd}</td>`
                     let totalitem = `<td>${carrinho[l].produto.valor * carrinho[l].qtd}</td>`
@@ -94,7 +90,6 @@
         async function insertCliente(pedido) {
             return new Promise(async (resolve, reject) => {
                 pedido = JSON.parse(pedido)
-                console.log(pedido)
                 let nome = ''
                 let cpf = ''
                 let email = ''
@@ -143,6 +138,7 @@
                                 <div>Cidade: ${cidade} </div>
                                 <div>Estado: ${uf} </div>
                             </div>`
+               
                 resolve(cont)
             })
         }
