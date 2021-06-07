@@ -4,17 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <title>Carrinho</title>
+    <script src="https://unpkg.com/feather-icons"></script>
 </head>
 
 <body>
-    <table id="tabela" border="1">
+
+    
+    <table id="tabela" class="table table-dark table-striped" style="margin-top: 20px;">
         <thead>
             <tr>
                 <th>Produto</th>
                 <th>Valor unitário</th>
                 <th>Quantidade</th>
-                <th>Total do Item</th>
+                <th colspan="2">Total do Item</th>
                 <th></th>
             </tr>
         </thead>
@@ -26,6 +30,7 @@
 
     <br><div>
         <a href="/"> Voltar para a Home</a>
+       
     </div> 
     <script type="text/javascript">
         window.onload = function () {
@@ -54,32 +59,36 @@
                     carrinho[i].qtd);
                 linha.appendChild(coluna);
                 coluna = document.createElement("td");
-                let imagem = document.createElement("img");
-                imagem.src = "imagens/add.png";
-                imagem.height = 30;
-    
-                imagem.addEventListener("click", function () {
+                let adicionar = document.createElement("button");
+                adicionar.innerText = "Adcionar";
+                adicionar.className = "btn btn-light"
+                adicionar.addEventListener("click", function () {
                     inserir("Carrinho", carrinho[i].produto);
                     atualizar("dados");
                 });
-                coluna.appendChild(imagem);
-                imagem = document.createElement("img");
-                imagem.src = "imagens/subtracao.jpg";
-                imagem.height = 25;
-                imagem.addEventListener("click", function () {
+                coluna.appendChild(adicionar);
+               
+                let subtrair = document.createElement("button");
+                subtrair.innerText = "Remover"
+                subtrair.className = "btn btn-light"
+                subtrair.style = "margin-left:10px;"
+                subtrair.src = "Remover";
+                subtrair.addEventListener("click", function () {
                     retira("Carrinho", carrinho[i].produto.id);
                     atualizar("dados");
                 });
-                coluna.appendChild(imagem);
+                coluna.appendChild(subtrair);
     
-                imagem = document.createElement("img");
-                imagem.src = "imagens/trash.jpeg";
-                imagem.height = 30;
-                imagem.addEventListener("click", function () {
+                let lixo = document.createElement("button");
+                lixo.className = "btn btn-light"
+                lixo.style = "margin-left:10px;"
+                lixo.innerText = "Lixo"
+                lixo.addEventListener("click", function () {
                     excluir("Carrinho", carrinho[i].produto.id);
                     atualizar("dados");
                 })
-                coluna.appendChild(imagem);
+                coluna.appendChild(lixo);
+                
                 linha.appendChild(coluna);
                 document.getElementById("dados")
                     .appendChild(linha);
@@ -96,7 +105,9 @@
             document.getElementById("dados").appendChild(linha);
             
             let checkout = document.createElement("a")
-            checkout.textContent = "Finalizar Compra"
+            checkout.innerText = "Finalizar Compra"
+            checkout.style = "margin-left: 10px; margin-top: 5px;"
+            checkout.className = "btn btn-dark "
             checkout.href = "/cadastro"
             linha.appendChild(checkout);
             document.getElementById("dados").appendChild(linha);
@@ -108,6 +119,7 @@
             }
             carregaTabela();
         }
+        feather.replace()
     </script>
     
     <script src="../js/funcoes.js"></script>

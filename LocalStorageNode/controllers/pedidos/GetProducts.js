@@ -12,7 +12,7 @@ module.exports.GetProducts = async function GetProducts(){
             let produto = `<td>${product.product}</td>`;
             let desc = `<td>${product.description}</td>`;
             let val = `<td>${product.value}</td>`;
-            let botao = `<td><button id=${id} onclick=comprar(this.id)>Comprar</button></td>`                                                                                                                                                                                          
+            let botao = `<td><button id=${id} type="button" class="btn btn-light" onclick=comprar(this.id)>Comprar</button></td>`                                                                                                                                                                                          
             tr += img + produto + desc + val + botao;
             tr += `</tr>`
         }

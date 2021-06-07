@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <title>Finalizar Compra</title>
 </head>
 
@@ -12,35 +14,47 @@
     <h2>Finalizar Compra</h2>
     <h3>Por favor, insira os dados para finalizar a compra.</h3>
 
-    <div class="inputData">
-        <label>
-            Nome: <input class="nome" id="nome" name="nome"></label>
-        <span id="ErrorNome"></span><br>
-
-        <label>CPF: <input class="cpf" id="cpf" name="cpf"></label>
-        <span id="ErrorCpf"></span><br><br>
-
-        Endereço:<br>
-        <label>Cep:
-            <input name="cep" type="text" id="cep" value="" size="10" maxlength="9"
-                onblur="pesquisacep(this.value);" /></label>
-        <span id="ErrorCep"></span><br><br />
-        <label>Rua:
-            <input name="rua" type="text" id="rua" size="60" /></label>
-        <span id="ErrorRua"></span><br><br />
-        <label>Bairro:
-            <input name="bairro" type="text" id="bairro" size="40" /></label>
-        <span id="ErrorBairro"></span><br><br />
-        <label>Cidade:
-            <input name="cidade" type="text" id="cidade" size="40" /></label>
-        <span id="ErrorCidade"></span><br><br />
-        <label>Estado:
-            <input name="uf" type="text" id="uf" size="2" /></label>
-        <span id="ErrorEstado"></span><br><br />
-
-
-        <label>Email: <input class="email" id="email" name="email"></label>
-        <span id="ErrorEmail"></span><br>
+    <div class="inputData" style="margin-top: 10px;">
+        <div class="form-group">
+            <label>
+                Nome: <input class="form-control" id="nome" name="nome"></label>
+            <span id="ErrorNome"></span>
+        </div>
+        <div class="form-group">
+            <label>CPF: <input class="form-control" id="cpf" name="cpf"></label>
+            <span id="ErrorCpf"></span><br><br>
+        </div>
+        Endereço<br>
+        <div class="form-group">
+            <label>Cep:
+                <input name="cep" class="form-control" type="text" id="cep" value="" size="10" maxlength="9"
+                    onblur="pesquisacep(this.value);" /></label>
+            <span id="ErrorCep"></span>
+        </div>
+        <div class="form-group">
+            <label>Rua:
+                <input name="rua" class="form-control" type="text" id="rua" size="60" /></label>
+            <span id="ErrorRua"></span>
+        </div>
+        <div class="form-group">
+            <label>Bairro:
+                <input name="bairro" class="form-control" type="text" id="bairro" size="40" /></label>
+            <span id="ErrorBairro"></span>
+        </div>
+        <div class="form-group">
+            <label>Cidade:
+                <input name="cidade" class="form-control" type="text" id="cidade" size="40" /></label>
+            <span id="ErrorCidade"></span>
+        </div>
+        <div class="form-group">
+            <label>Estado:
+                <input name="uf" class="form-control" type="text" id="uf" size="2" /></label>
+            <span id="ErrorEstado"></span><br>
+        </div>
+        <div class="form-group">
+            <label>Email: <input class="form-control"  id="email" name="email"></label>
+            <span id="ErrorEmail"></span><br><br>
+        </div>
     </div><br>
     <table id="tabela" border="1">
         <tbody id="dados" name="tabela">
@@ -49,11 +63,11 @@
     </table>
     <br>
     <div>
-        <a id='check' onclick="checkData()">FINALIZAR</a>
+        <button class="btn btn-primary" id='check' onclick="checkData()">FINALIZAR</button>
     </div><br>
 
     <div>
-        <a href="/"> Voltar para a Home</a>
+        <a class="btn btn-secondary" href="/"> Voltar para a Home</a>
     </div>
 
     <script type="text/javascript">
@@ -118,12 +132,13 @@
                     let pedidos = [];
                     pedidos.push(cliente, produtos);
                     let respGrava = await gravaDados(cliente[1], pedidos)
-                    let obj = await getObj(respGrava)
+                    let [client, products] = await getObj(respGrava)
                     let xhr = new XMLHttpRequest();
                     xhr.open("POST", '/cadastro/pedido', true);
                     xhr.setRequestHeader('Content-Type', 'application/json');
                     xhr.send(JSON.stringify({
-                        pedido: obj
+                        client,
+                        products
                     }));
                     document.getElementById('check').href = '/pedidos'
                 }
@@ -134,7 +149,7 @@
             return new Promise(async (resolve, reject) => {
                 let pedido = JSON.parse(objePedido)
                 let obj = {}
-                let cliente = {
+                let client = {
                     nome: pedido[0][0],
                     cpf: pedido[0][1],
                     cep: pedido[0][3],
@@ -143,15 +158,9 @@
                     cidade: pedido[0][6],
                     uf: pedido[0][7],
                 }
-                let produto = JSON.stringify(pedido[1])
-                let produtos = {
-                    produto
-                }
-                obj = {
-                    cliente,
-                    produtos
-                }
-                resolve(obj);
+                let products = pedido[1];
+
+                resolve([client, products]);
             })
         }
 
