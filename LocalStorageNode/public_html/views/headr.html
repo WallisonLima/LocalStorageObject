@@ -1,28 +1,36 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
-            integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    </head>
-    <body>
-    <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="slim-header-left">
-            <a href="/"><img style="width: 120px; margin-left: 25px;" src="../imagens/logo.png"></a>
-        </div>
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo03" style="margin-left: 45%;">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/pedidos">Pedidos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/cadastrar-produto">Cadastro Produtos</a>
-                </li>
-            </ul>
-        </div>
-      </nav>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/headr.css">
+</head>
+
+<body>
+    <div class="cont">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="slim-header-left">
+                <a href="/"><img style="width: 120px; margin-left: 25px;" src="../imagens/logo.png"></a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03"s>
+                <ul class="navbar-nav ">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/pedidos">Pedidos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cadastrar-produto">Cadastro Produtos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a type="button" class="nav-link" id="carrinho" href="/carrinho">Carrinho:
+                            <span id="itens">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
