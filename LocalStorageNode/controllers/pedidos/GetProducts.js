@@ -1,8 +1,6 @@
-const GetProductsDB = require('../BD/database').findDB
 
-module.exports.GetProducts = async function GetProducts(){
+module.exports.GetProducts = async function GetProducts(products){
     return new Promise(async (resolve, reject)=>{
-        let products = await GetProductsDB('Products')
         let tr = '';
         let content = '';
         for(let product of products){
