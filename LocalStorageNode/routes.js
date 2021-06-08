@@ -16,6 +16,8 @@ routes.get('/', async(req, res)=>{
     res.send(boddy)
 })
 
+
+
 routes.get('/pedidos', (req, res)=>{
     res.sendFile(__dirname + "/public_html/views/pedidos.html")
 })
