@@ -62,7 +62,7 @@
     </table>
     <br>
     <div>
-        <button class="btn btn-success" id='check' onclick="checkData()">FINALIZAR</button>
+        <a class="btn btn-success" id='check' onclick="checkData()">FINALIZAR</a>
     </div><br>
 
     <div>
@@ -132,6 +132,7 @@
                     pedidos.push(cliente, produtos);
                     let respGrava = await gravaDados(cliente[1], pedidos)
                     let [client, products] = await getObj(respGrava)
+                    console.log(products)
                     let xhr = new XMLHttpRequest();
                     xhr.open("POST", '/cadastro/pedido', true);
                     xhr.setRequestHeader('Content-Type', 'application/json');
