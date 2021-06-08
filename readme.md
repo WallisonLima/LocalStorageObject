@@ -1,7 +1,7 @@
 
-# Projeto de estudo baseado no cadastro de colaboradores ao banco de dados da empresa.
+## Projeto de estudo baseado no cadastro de colaboradores ao banco de dados da empresa.
 
-## Neste projeto foi implementado JavaScript, NodeJS, MongoDB, HTML5 e CSS3.
+#### Neste projeto foi implementado JavaScript, NodeJS, MongoDB, HTML5 e CSS3.
 
 ![Interface](./imgHub/Interface.png)
 
