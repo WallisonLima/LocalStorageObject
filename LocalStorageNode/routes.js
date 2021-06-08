@@ -6,9 +6,6 @@ const GetProducts = require('./controllers/pedidos/GetProducts').GetProducts
 const CreatOrder = require('./controllers/pedidos/CreatOrder').CreatOrder
 const CreatProduct = require('./controllers/products/CreatProduct').CreatProduct
 
-routes.use(bodyParser.urlencoded({ extended: false }))
-routes.use(bodyParser.json())
-
 
 routes.get('/', async(req, res)=>{
     let content = await GetProducts()
@@ -17,29 +14,32 @@ routes.get('/', async(req, res)=>{
 })
 
 
-
-routes.get('/pedidos', (req, res)=>{
-    res.sendFile(__dirname + "/public_html/views/pedidos.html")
+routes.get('/pedidos', async (req, res)=>{
+    let body = await helpers.GetPart(__dirname + "/public_html/views/pedidos.html")
+    res.send(body)
 })
 
-routes.get('/carrinho', (req, res)=>{
-    res.sendFile(__dirname + "/public_html/views/carrinho.html")
+routes.get('/carrinho', async (req, res)=>{
+    let body = await helpers.GetPart(__dirname + "/public_html/views/carrinho.html")
+    res.send(body)
 })
 
-routes.get('/cadastro', (req, res)=>{
-    res.sendFile(__dirname + "/public_html/views/cadastro.html")
+routes.get('/cadastro', async (req, res)=>{
+    let body = await helpers.GetPart(__dirname + "/public_html/views/cadastro.html")
+    res.send(body)
 })
 
+routes.get("/cadastrar-produto", async (req, res)=>{
+    let body = await helpers.GetPart(__dirname + "/public_html/views/produtos.html")
+    res.send(body)
+})
 
 routes.post('/cadastro/pedido', async (req, res)=>{
     let resp = await CreatOrder(req)
-    res.sendFile(__dirname + "/public_html/views/pedidos.html")
+    let body = await helpers.GetPart(__dirname + "/public_html/views/pedidos.html")
+    res.send(body)
 })
 
-
-routes.get("/cadastrar-produto", async (req, res)=>{
-    res.sendFile(__dirname + "/public_html/views/produtos.html")
-})
 
 routes.post("/cadastrar-produto/cadastrar", async(req, res)=>{
     let resp = await CreatProduct(req)
