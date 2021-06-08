@@ -1,47 +1,38 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <title>Home</title>
-</head>
-
-<body>
-
-    <div>
-        <table id="table" class="table table-dark table-striped">
-            <thead>
-                <tr>
-                    <th colspan="2">Produto</th>
-                    <th>Descrição</th>
-                    <th colspan="2">Valor</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{Produtos}}
-            </tbody>
-        </table>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm">
-                <div class="cadastrar">
-                    <a href="/cadastrar-produto" class="btn btn-dark">Cadastrar produtos</a>
+    
+    
+     <title>Home</title>
+        <div>
+            <table id="table" class="table table-dark table-striped">
+                <thead>
+                    <tr>
+                        <th colspan="2">Produto</th>
+                        <th>Descrição</th>
+                        <th colspan="2">Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{Produtos}}
+                </tbody>
+            </table>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <div class="cadastrar">
+                        <a href="/cadastrar-produto" class="btn btn-dark">Cadastrar produtos</a>
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm">
-                <div id="carrinho">
-                    <a type="button" class="btn btn-dark" href="/carrinho">Carrinho:
-                        <span id="itens">0</span>
-                        itens.</a>
+                <div class="col-sm">
+                    <div id="carrinho">
+                        <a type="button" class="btn btn-dark" href="/carrinho">Carrinho:
+                            <span id="itens">0</span>
+                            itens.</a>
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm">
-                <div class="pedidos">
-                    <a href="/pedidos" type="button" class="btn btn-dark"> Pedidos </a>
+                <div class="col-sm">
+                    <div class="pedidos">
+                        <a href="/pedidos" type="button" class="btn btn-dark"> Pedidos </a>
+                    </div>
                 </div>
             </div>
         </div>
