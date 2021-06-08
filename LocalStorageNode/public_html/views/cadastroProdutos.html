@@ -1,32 +1,30 @@
+    <link rel="stylesheet" href="../css/produtos.css">
     <title>Cadastrar Produtos</title>
-    <div class="container">
-        <div class="container title">Cadastrar Produtos </div>
+    <div class="container" style="margin-top: 20px;">
+        <div class="title">Cadastrar Produtos </div>
         <form action="/cadastrar-produto/cadastrar" method="POST">
-            <div class="container">
-                <div class="form-group">
+            <div class="section">
+                <div class="form-group item">
                     <label for="produto">Produto</label>
                     <input type="text" name="product" class="form-control" id="produto" placeholder="Calça Jeans" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group item">
                     <label for="descricao">Descrição</label>
                     <input type="text" name="description" class="form-control" id="descricao"
                         placeholder="Calça jeans masculina" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group item">
                     <label for="valor">Valor</label>
                     <input type="text" name="value" class="form-control" id="valor" placeholder="89.90" required>
                 </div>
-                <div class="form-group">
+                <div class="form-group item">
                     <label for="midia">Midia</label>
                     <input type="text" name="img" class="form-control" id="midia"
                         placeholder="https://s.modab.com.br/catalog/product/cache/1/small_image/600x900/9df78eab33525d08d6e5fb8d27136e95/c/a/calca-jeans-favorita-perolas-02_1.jpg" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Enviar</button>
+                <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Enviar</button>
             </div>
         </form>
-        <div class="button" style="margin-left: 10px;margin-top: 20px;">
-            <a class="btn btn-primary" href="/">Home</a>
-        </div>
     </div>
 </body>
 

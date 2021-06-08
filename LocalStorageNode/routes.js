@@ -30,14 +30,14 @@ routes.get('/carrinho', async (req, res)=>{
 
 routes.get('/cadastro', async (req, res)=>{
     let headr = await helpers.GetPart(__dirname + "/public_html/views/headr.html")
-    let body = await helpers.GetPart(__dirname + "/public_html/views/cadastro.html")
+    let body = await helpers.GetPart(__dirname + "/public_html/views/cadastroPessoa.html")
     let content = headr + body
     res.send(content)
 })
 
 routes.get("/cadastrar-produto", async (req, res)=>{
     let headr = await helpers.GetPart(__dirname + "/public_html/views/headr.html")
-    let body = await helpers.GetPart(__dirname + "/public_html/views/produtos.html")
+    let body = await helpers.GetPart(__dirname + "/public_html/views/cadastroProdutos.html")
     let content = headr + body
     res.send(content)
 })
