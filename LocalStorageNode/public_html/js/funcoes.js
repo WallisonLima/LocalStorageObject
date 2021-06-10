@@ -217,3 +217,60 @@ function pesquisacep(valor) {
     }
 };
 
+
+
+function checkCPF(cpf) {
+    if (confereCampo('cpf') == true) {
+        document.getElementById('ErrorCpf').innerHTML = "Digite um CPF"
+        resp = ''
+    } else {
+        if (verificaCpf('cpf') == true) {
+            document.getElementById('ErrorCpf').innerHTML = "Digite um CPF válido"
+            resp = ''
+        } else {
+            cpf = document.getElementById('cpf').value
+            document.getElementById('ErrorCpf').innerHTML = ""
+            resp = 'Sucess'
+        }
+    }
+}
+
+function checkNome(nome) {
+    if (confereCampo('nome') == true) {
+        document.getElementById('ErrorNome').innerHTML = "Digite um nome";
+    } else {
+        nome = document.getElementById('nome').value
+        document.getElementById('ErrorNome').innerHTML = "";
+    }
+}
+
+function checkEmail(email) {
+    if (confereCampo('email') == true) {
+        document.getElementById('ErrorEmail').innerHTML = "Digite um e-mail"
+        resp = ''
+    } else {
+        if (verificaEmail('email') == true) {
+            document.getElementById('ErrorEmail').innerHTML = "Digite um EMAIL válido"
+            resp = ''
+        } else {
+            email = document.getElementById('email').value
+            document.getElementById('ErrorEmail').innerHTML = ""
+            resp = 'Sucess'
+        }
+    }
+}
+
+function checkCep(cep) {
+    if (confereCampo('cep') == true) {
+        document.getElementById('ErrorCep').innerHTML = "Digite um Cep"
+        resp = ''
+    }
+    else {
+        cep = document.getElementById('cep').value
+        rua = document.getElementById('rua').value
+        bairro = document.getElementById('bairro').value
+        cidade = document.getElementById('cidade').value
+        uf = document.getElementById('uf').value
+        resp = 'Sucess'
+    }
+}

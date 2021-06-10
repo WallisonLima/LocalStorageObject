@@ -5,6 +5,7 @@ const GetProducts = require('./controllers/pedidos/GetProducts').GetProducts
 const db = require('./BD/database')
 
 
+
 routes.get('/', async(req, res)=>{
     let products = await db.findDB('Products')
     let contentProduct = await GetProducts(products)
@@ -35,7 +36,7 @@ routes.get('/cadastro', async (req, res)=>{
     res.send(content)
 })
 
-routes.get("/cadastrar-produto", async (req, res)=>{
+routes.get("/cadastrar-produto/", async (req, res)=>{
     let content = '';
     content += await helpers.GetPart(__dirname + "/public_html/views/headr.html")
     content += await helpers.GetPart(__dirname + "/public_html/views/cadastroProdutos.html")
@@ -43,12 +44,13 @@ routes.get("/cadastrar-produto", async (req, res)=>{
 })
 
 
-routes.post('/cadastro/pedido', async (req, res)=>{
-    let resp = await insertDB('Orders', body);
-    let content = '';
-    content += await helpers.GetPart(__dirname + "/public_html/views/headr.html")
-    content += await helpers.GetPart(__dirname + "/public_html/views/pedidos.html")
-    res.send(content)
+routes.post('/cadastrar-pedido/', async (req, res)=>{
+    console.log(req.body)
+    // let resp = await db.insertDB('Orders', body);
+    // let content = '';
+    // content += await helpers.GetPart(__dirname + "/public_html/views/headr.html")
+    // content += await helpers.GetPart(__dirname + "/public_html/views/pedidos.html")
+    // res.send(content)
 })
 
 routes.post("/cadastrar-produto/cadastrar", async(req, res)=>{

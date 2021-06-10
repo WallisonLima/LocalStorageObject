@@ -19,6 +19,7 @@ module.exports.findDB = async function findDB(dbName, query={}, options={}){
 
 
 module.exports.insertDB = async function insertDB(dbName, myobj){
+    console.log(myobj)
     return new Promise(async (resolve, reject)=>{
         connect.then(function(db) {
             let dbo = db.db("LocalStorageObject");
