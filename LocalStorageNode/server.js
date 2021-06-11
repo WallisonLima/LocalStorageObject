@@ -5,7 +5,7 @@ const port = 8080;
 
 server.use(express.static("public_html"));
 server.use(routes);
-server.use('body-pareser')
+
 
 
 server.listen(port, ()=>{

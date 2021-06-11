@@ -2,7 +2,7 @@
     <div style="margin-left: 40px;">
         <h2>Finalizar Compra</h2>
         <h3>Por favor, insira os dados para finalizar a compra.</h3>
-        <form action="/cadastrar-pedido/" method="POST" id="form1">
+        <form method="POST" id="form1" name="form1">
             <div class="inputData" style="margin-top: 10px;">
                 <div class="form-group">
                     <label>
@@ -41,19 +41,32 @@
                     <span id="ErrorEstado"></span><br>
                 </div>
                 <div class="form-group">
+                    <label>Número:
+                        <input name="n" class="form-control" type="text" id="numero" size="2" /></label>
+                    <span id="ErrorEstado"></span><br>
+                </div>
+                <div class="form-group">
                     <label>Email: <input class="form-control" id="email" name="email"
                             onblur="checkEmail(this.value);"></label>
                     <span id="ErrorEmail"></span><br><br>
                 </div>
+                <div class="form-group">
+                    <label>Banco: <input class="form-control" id="banco" name="banco"></label>
+                </div><br>
             </div>
             <table id="tabela" border="1">
                 <tbody id="dadosTabela" name="tabela">
                 </tbody>
             </table>
-            
-            <div>
-                <a class="btn btn-success" id='check' onclick="checkData()">FINALIZAR</a>
+            <div class="btn-toolbar" style="margin-top: 20px;">
+                <div>
+                    <a class="btn btn-success" id='check' onclick="checkData()">FINALIZAR</a>
+                </div>
+                <div class="boletoGenerater" style="margin-left: 20px;">
+                    <a class="btn btn-success" id='boleto' onclick="getBoleto()">Gerar Boleto</a>
+                </div>
             </div>
+
         </form>
     </div>
 
@@ -62,6 +75,22 @@
         window.onload = function () {
             carregaTabela();
         };
+
+        async function getBoleto() {
+            let [resp, dados, listProdutos] = await getDatas();
+            if (resp == 'Sucess') {
+                let obj = {
+                    dados, listProdutos
+                }
+                let xhr = new XMLHttpRequest();
+                xhr.open("POST", '/gerar-boleto', true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.send(JSON.stringify({
+                    pedido: obj
+                }));
+                //document.getElementById('check').href = '/gerar-boleto'
+            }
+        }
 
         function carregaTabela() {
             let carrinho = lerDados("Carrinho");
@@ -98,10 +127,8 @@
                                     </tbody>
                                 </table>`
             let cont = document.createElement('div')
-
             cont.innerHTML += product
             document.getElementById("dadosTabela").appendChild(cont);
-
         };
         function atualizar(dados) {
             let linhas = document.getElementById(dados).rows;
@@ -113,34 +140,46 @@
 
         async function checkData() {
             return new Promise(async (resolve, reject) => {
-                let resp = await getDatas();
-                if(resp == 'Sucess'){
-                    document.getElementById("form1").submit()
+                let [resp, dados, listProdutos] = await getDatas();
+                if (resp == 'Sucess') {
+                    let obj = {
+                        dados, listProdutos
+                    }
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("POST", '/cadastrar-pedido/', true);
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.send(JSON.stringify({
+                        pedido: obj
+                    }));
+                    document.getElementById('check').href = '/pedidos'
                 }
             })
         }
 
-        async function getDatas(){
-            return new Promise(async (resolve, reject)=>{
+        async function getDatas() {
+            return new Promise(async (resolve, reject) => {
                 let dados = {
-                    "nome" : $("#nome").val(),
-                    "cpf" : $("#cpf").val(),
-                    "cep" : $("#cep").val(),
-                    "rua" : $("#rua").val(),
-                    "bairro" : $("#bairro").val(),
-                    "cidade" : $("#cidade").val(),
-                    "uf" : $("#uf").val(),
-                    "email" : $("#email").val()
+                    "nome": $("#nome").val(),
+                    "cpf": $("#cpf").val(),
+                    "cep": $("#cep").val(),
+                    "rua": $("#rua").val(),
+                    "bairro": $("#bairro").val(),
+                    "cidade": $("#cidade").val(),
+                    "uf": $("#uf").val(),
+                    "uf": $("#numero").val(),
+                    "email": $("#email").val(),
+                    "banco": $("#banco").val()
                 }
-                if(dados.nome == "" || dados.cpf == "" || dados.cep == "" || dados.rua == "" || dados.bairro == "" || dados.cidade == "" || dados.email == ""){
+                if (dados.nome == "" || dados.cpf == "" || dados.cep == "" || dados.rua == "" || dados.bairro == "" || dados.cidade == "" || dados.email == "") {
                     alert("Algum campo não foi preenchido!")
                     return;
                 }
-                if(!$("#ErrorNome").text() == "" || !$("#ErrorCpf").text() == "" || !$("#ErrorCep").text() == "" || !$("#ErrorEmail").text() == ""){
+                if (!$("#ErrorNome").text() == "" || !$("#ErrorCpf").text() == "" || !$("#ErrorCep").text() == "" || !$("#ErrorEmail").text() == "") {
                     alert("Algum campo preenchido incorretamente!")
                     return;
                 }
-                resolve("Sucess")
+                let listProdutos = await obterProdutos(await lerDados("Carrinho"))
+                resolve(["Sucess", dados, listProdutos])
             })
         }
 

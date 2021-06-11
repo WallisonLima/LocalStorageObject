@@ -83,19 +83,17 @@ function lerDados(nomeChave) {
 
 function obterProdutos(produto) {
     let listaprodutos = [];
-    
     for (let each of produto) {
-        let produto = {
-            id: each.children[4].firstChild.id,
-            produto: each.children[1].innerText,
-            descricao: each.children[2].innerText,
-            valor: each.children[3].innerText,
-            url: each.children[0].children[0].currentSrc
+        let product = {
+            id: each.produto.id,
+            produto: each.produto.produto,
+            descricao: each.produto.descricao,
+            valor: each.produto.valor,
+            url: each.produto.url,
+            qtd: each.qtd
         };
-        listaprodutos.push(produto);
+        listaprodutos.push(product);
     }
-    console.log(listaprodutos)
-
     return listaprodutos;
 }
 
