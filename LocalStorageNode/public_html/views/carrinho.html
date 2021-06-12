@@ -1,7 +1,5 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <title>Carrinho</title>
-    <script src="https://unpkg.com/feather-icons"></script>
-   
+<body>
+
     <table id="tabela" class="table table-dark table-striped" style="margin-top: 20px;">
         <thead>
             <tr>
@@ -18,12 +16,12 @@
         </tbody>
     </table>
 
-    
+
     <script type="text/javascript">
         window.onload = function () {
             carregaTabela();
         };
-    
+
         function carregaTabela() {
             let carrinho = lerDados("Carrinho");
             let ValorTotal = 0;
@@ -31,12 +29,12 @@
                 let linha = document.createElement("tr");
                 let coluna = document.createElement("td");
                 coluna.textContent = carrinho[i].produto.produto;
-                
+
                 linha.appendChild(coluna);
                 coluna = document.createElement("td");
                 coluna.textContent = valor(carrinho[i].produto.valor);
                 ValorTotal += (carrinho[i].produto.valor *
-                    carrinho[i].qtd); 
+                    carrinho[i].qtd);
                 linha.appendChild(coluna);
                 coluna = document.createElement("td");
                 coluna.textContent = carrinho[i].qtd;
@@ -54,7 +52,7 @@
                     atualizar("dados");
                 });
                 coluna.appendChild(adicionar);
-               
+
                 let subtrair = document.createElement("button");
                 subtrair.innerText = "Remover"
                 subtrair.className = "btn btn-light"
@@ -65,7 +63,7 @@
                     atualizar("dados");
                 });
                 coluna.appendChild(subtrair);
-    
+
                 let lixo = document.createElement("button");
                 lixo.className = "btn btn-light"
                 lixo.style = "margin-left:10px;"
@@ -75,7 +73,7 @@
                     atualizar("dados");
                 })
                 coluna.appendChild(lixo);
-                
+
                 linha.appendChild(coluna);
                 document.getElementById("dados")
                     .appendChild(linha);
@@ -85,12 +83,12 @@
             celula.textContent = "Total";
             celula.colSpan = 3;
             linha.appendChild(celula);
-    
+
             celula = document.createElement("td");
             celula.textContent = valor(ValorTotal);
             linha.appendChild(celula);
             document.getElementById("dados").appendChild(linha);
-            
+
             let checkout = document.createElement("a")
             checkout.innerText = "Finalizar Compra"
             checkout.style = "margin-left: 10px; margin-top: 5px;"
@@ -108,7 +106,7 @@
         }
         feather.replace()
     </script>
-    
+
     <script src="../js/funcoes.js"></script>
 </body>
 

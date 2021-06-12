@@ -1,20 +1,19 @@
 
 module.exports.GetProducts = async function GetProducts(products){
     return new Promise(async (resolve, reject)=>{
-        let tr = '';
-        let content = '';
+        let produtos = '';
         for(let product of products){
-            let id = product._id;
-            tr += `<tr class="trProduct">`;
-            let img = `<td><img src=${product.img} height="50"></td>`;
-            let produto = `<td>${product.product}</td>`;
-            let desc = `<td>${product.description}</td>`;
-            let val = `<td>${product.value}</td>`;
-            let botao = `<td><button id=${id} type="button" class="btn btn-light" onclick=comprar(this.id)>Comprar</button></td>`                                                                                                                                                                                          
-            tr += img + produto + desc + val + botao;
-            tr += `</tr>`
+           produtos += `        <div class="card" style="max-width: 18rem; margin-left: 20px; margin-top: 20px;">
+                                    <img class="card-img-top" src="${product.img}" alt="Card image cap" style="height: 300px;width: 200px;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${product.product}</h5>
+                                        <p class="card-text">${product.description}</p>
+                                        <a href="#" class="btn btn-primary">Comprar</a>
+                                    </div>
+                                </div>
+                           `
+                           
         }
-        content = tr;
-        resolve(content)
+        resolve(produtos)
     })
 }

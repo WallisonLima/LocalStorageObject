@@ -15,27 +15,28 @@ let urlencodedParser = bodyParser.urlencoded({ extended: false })
 routes.get('/', urlencodedParser, async(req, res)=>{
     let products = await db.findDB('Products')
     let contentProduct = await GetProducts(products)
+    let produtos = `<div class="row">${contentProduct}</div>`
     let content = '';
     content += await helpers.GetPart(__dirname + "/public_html/views/headr.html", [{search: '{{title}}', replace: "Home"}])
-    content += await helpers.GetPart(__dirname + "/public_html/views/home.html", [{search: '{{Produtos}}', replace: contentProduct}])
+    content += await helpers.GetPart(__dirname + "/public_html/views/home.html", [{search: '{{Produtos}}', replace: produtos}])
     res.send(content)
 })
 
 routes.get('/pedidos', urlencodedParser, async (req, res)=>{
     let orders = await db.findDB('Orders')
-    let pedidos = [];
+    let pedidos = '';
     let i = 1;
     for(let pedido of orders){
-        let product = [];
+        let product = '';
         for(let produto of pedido.pedido.listProdutos){
-            product.push(`<tr> 
+            product += `<tr> 
                             <td> ${produto.produto} </td> 
                             <td> ${produto.valor} </td> 
                             <td> ${produto.qtd} </td> 
                             <td> ${(produto.qtd * produto.valor).toFixed(2)} </td> 
-                          </tr>`)
+                          </tr>`
         }
-        pedidos.push(`<div class="dados">
+        pedidos += `<div class="dados">
                         <ul class="list-group">
                             <li class="list-group-item active">COMPRA ${i}</li>
                             <li class="list-group-item">Nome: ${pedido.pedido.dados.nome} </li> 
@@ -58,13 +59,14 @@ routes.get('/pedidos', urlencodedParser, async (req, res)=>{
                                                 <th>Total do Item</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="tabelaDinamica">
+                                        <tbody>
                                             <tr>${product}</tr>                                    
                                         </tbody>
                             </table>
-                      </div>`)
+                      </div>`
         i++
     }
+    
     let content = '';
     content += await helpers.GetPart(__dirname + "/public_html/views/headr.html", [{search: '{{title}}', replace: "Pedidos"}])
     content += await helpers.GetPart(__dirname + "/public_html/views/pedidos.html", [{search: '{{pedidos}}', replace: pedidos}])
@@ -122,7 +124,7 @@ routes.post('/cadastrar-pedido/', urlencodedParser, async (req, res)=>{
 })
 
 routes.post("/cadastrar-produto/cadastrar", urlencodedParser, async(req, res)=>{
-    let resp = await insertDB('Products', req.body)
+    let resp = await db.insertDB('Products', req.body)
     if(resp.result.n == 1 && resp.result.ok == 1){
         res.redirect("/cadastrar-produto")
     }
