@@ -78,11 +78,24 @@ function lerDados(nomeChave) {
 }
 
 
-
-
-
 function obterProdutos(produto) {
     let listaprodutos = [];
+    for (let each of produto) {
+        let produto = {
+            id: each.children[4].firstChild.id,
+            produto: each.children[1].innerText,
+            descricao: each.children[2].innerText,
+            valor: each.children[3].innerText,
+            url: each.children[0].children[0].currentSrc
+        };
+        listaprodutos.push(produto);
+    }
+    return listaprodutos;
+};
+
+function obterProdutosCadastro(produto) {
+    let listaprodutos = [];
+    let valor = 0;
     for (let each of produto) {
         let product = {
             id: each.produto.id,
@@ -90,7 +103,8 @@ function obterProdutos(produto) {
             descricao: each.produto.descricao,
             valor: each.produto.valor,
             url: each.produto.url,
-            qtd: each.qtd
+            qtd: each.qtd,
+            Total: parseFloat(each.produto.valor) * parseInt(each.qtd) 
         };
         listaprodutos.push(product);
     }

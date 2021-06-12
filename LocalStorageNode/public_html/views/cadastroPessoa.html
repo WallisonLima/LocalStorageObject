@@ -2,7 +2,7 @@
     <div style="margin-left: 40px;">
         <h2>Finalizar Compra</h2>
         <h3>Por favor, insira os dados para finalizar a compra.</h3>
-        <form method="POST" id="form1" name="form1">
+        
             <div class="inputData" style="margin-top: 10px;">
                 <div class="form-group">
                     <label>
@@ -10,7 +10,7 @@
                     <span id="ErrorNome"></span>
                 </div>
                 <div class="form-group">
-                    <label>CPF: <input class="form-control" id="cpf" name="cpf" onblur="checkCPF(this.value);"></label>
+                    <label>CPF: <input class="form-control" id="cpf" name="cpf"></label>
                     <span id="ErrorCpf"></span><br><br>
                 </div>
                 Endereço<br>
@@ -67,7 +67,7 @@
                 </div>
             </div>
 
-        </form>
+        
     </div>
 
 
@@ -75,7 +75,6 @@
         window.onload = function () {
             carregaTabela();
         };
-
         async function getBoleto() {
             let [resp, dados, listProdutos] = await getDatas();
             if (resp == 'Sucess') {
@@ -83,13 +82,31 @@
                     dados, listProdutos
                 }
                 let xhr = new XMLHttpRequest();
-                xhr.open("POST", '/gerar-boleto', true);
+                xhr.open("POST", '/gerar-boleto/', true);
                 xhr.setRequestHeader('Content-Type', 'application/json');
                 xhr.send(JSON.stringify({
                     pedido: obj
                 }));
-                //document.getElementById('check').href = '/gerar-boleto'
+                document.getElementById('boleto').href = '/boleto'
             }
+        }
+
+        async function checkData() {
+            return new Promise(async (resolve, reject) => {
+                let [resp, dados, listProdutos] = await getDatas();
+                if (resp == 'Sucess') {
+                    let obj = {
+                        dados, listProdutos
+                    }
+                    let xhr = new XMLHttpRequest();
+                    xhr.open("POST", '/cadastrar-pedido/', true);
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.send(JSON.stringify({
+                        pedido: obj
+                    }));
+                    document.getElementById('check').href = '/pedidos'
+                }
+            })
         }
 
         function carregaTabela() {
@@ -101,7 +118,7 @@
                 let produto = `<td name="produto">${carrinho[l].produto.produto}</td>`
                 let preco = `<td name="preco">${carrinho[l].produto.valor}</td>`
                 let quant = `<td name="qtd">${carrinho[l].qtd}</td>`
-                let totalitem = `<td name="valorTotal">${carrinho[l].produto.valor * carrinho[l].qtd}</td>`
+                let totalitem = `<td name="valorTotal">R$ ${(carrinho[l].produto.valor * carrinho[l].qtd).toFixed(2)}</td>`
                 linha += produto
                 linha += preco
                 linha += quant
@@ -138,23 +155,7 @@
             carregaTabela();
         }
 
-        async function checkData() {
-            return new Promise(async (resolve, reject) => {
-                let [resp, dados, listProdutos] = await getDatas();
-                if (resp == 'Sucess') {
-                    let obj = {
-                        dados, listProdutos
-                    }
-                    let xhr = new XMLHttpRequest();
-                    xhr.open("POST", '/cadastrar-pedido/', true);
-                    xhr.setRequestHeader('Content-Type', 'application/json');
-                    xhr.send(JSON.stringify({
-                        pedido: obj
-                    }));
-                    document.getElementById('check').href = '/pedidos'
-                }
-            })
-        }
+        
 
         async function getDatas() {
             return new Promise(async (resolve, reject) => {
@@ -166,7 +167,7 @@
                     "bairro": $("#bairro").val(),
                     "cidade": $("#cidade").val(),
                     "uf": $("#uf").val(),
-                    "uf": $("#numero").val(),
+                    "n": $("#numero").val(),
                     "email": $("#email").val(),
                     "banco": $("#banco").val()
                 }
@@ -178,7 +179,7 @@
                     alert("Algum campo preenchido incorretamente!")
                     return;
                 }
-                let listProdutos = await obterProdutos(await lerDados("Carrinho"))
+                let listProdutos = await obterProdutosCadastro(await lerDados("Carrinho"))
                 resolve(["Sucess", dados, listProdutos])
             })
         }
